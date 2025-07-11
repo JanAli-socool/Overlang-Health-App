@@ -4,9 +4,11 @@ const ResultDisplay = ({ result }) => {
   const [dailyTip, setDailyTip] = useState("");
 
   useEffect(() => {
-    fetch("http://localhost:8000/api/daily-tip")
+    const baseUrl = process.env.REACT_APP_API_URL || "http://localhost:8000";
+    fetch(`${baseUrl}/api/daily-tip`)
       .then((res) => res.json())
-      .then((data) => setDailyTip(data.tip));
+      .then((data) => setDailyTip(data.tip))
+      .catch((err) => console.error("Failed to fetch daily tip:", err));
   }, []);
 
   return (
