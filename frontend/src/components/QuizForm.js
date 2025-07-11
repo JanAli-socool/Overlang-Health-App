@@ -23,7 +23,7 @@ const next = async () => {
   if (step < 2) {
     setStep(step + 1);
   } else {
-    const baseUrl = process.env.REACT_APP_API_BASE_URL || "http://localhost:8000";
+    const baseUrl = process.env.REACT_APP_API_URL || "http://localhost:8000";
     try {
       const res = await fetch(`${baseUrl}/api/health-plan`, {
         method: "POST",
