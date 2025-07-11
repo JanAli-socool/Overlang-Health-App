@@ -19,24 +19,36 @@ const QuizForm = () => {
     setAnswers(updated);
   };
 
-  const next = async () => {
-    if (step < 2) {
-      setStep(step + 1);
-    } else {
-      const res = await fetch("http://localhost:8000/api/health-plan", {
+const next = async () => {
+  if (step < 2) {
+    setStep(step + 1);
+  } else {
+    const baseUrl = process.env.REACT_APP_API_BASE_URL || "http://localhost:8000";
+    
+    try {
+      const res = await fetch(`${baseUrl}/api/health-plan`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           q1: answers[0],
           q2: answers[1],
-          q3: answers[2]
-        })
+          q3: answers[2],
+        }),
       });
+
+      if (!res.ok) {
+        throw new Error("Server error");
+      }
+
       const data = await res.json();
       setResult(data);
       setShowBanner(true);
+    } catch (error) {
+      console.error("Failed to fetch:", error.message);
     }
-  };
+  }
+};
+
 
   return (
     <div>
