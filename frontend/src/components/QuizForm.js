@@ -24,11 +24,12 @@ const next = async () => {
     setStep(step + 1);
   } else {
     const baseUrl = process.env.REACT_APP_API_BASE_URL || "http://localhost:8000";
-    
     try {
       const res = await fetch(`${baseUrl}/api/health-plan`, {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Content-Type": "application/json",
+        },
         body: JSON.stringify({
           q1: answers[0],
           q2: answers[1],
@@ -37,7 +38,7 @@ const next = async () => {
       });
 
       if (!res.ok) {
-        throw new Error("Server error");
+        throw new Error(`HTTP error! status: ${res.status}`);
       }
 
       const data = await res.json();
@@ -48,7 +49,6 @@ const next = async () => {
     }
   }
 };
-
 
   return (
     <div>
